@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "450317327553",
+    "project_id": "meetmyshow-50dc1",
+    "storage_bucket": "meetmyshow-50dc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450317327553:android:a43d6a18aea432cfdf4840",
+        "android_client_info": {
+          "package_name": "com.example.campus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiHo3eo5mEEsDKVs5PFPagGHFayc3bAMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450317327553:android:48855794d5080888df4840",
+        "android_client_info": {
+          "package_name": "com.materialsouk.meetmyshow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiHo3eo5mEEsDKVs5PFPagGHFayc3bAMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
