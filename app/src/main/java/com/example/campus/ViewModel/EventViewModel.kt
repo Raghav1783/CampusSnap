@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.campus.data.model.Event
 import com.example.campus.data.repo.EventRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class EventViewModel(
+@HiltViewModel
+class EventViewModel @Inject constructor(
     val repository: EventRepository
 ): ViewModel() {
     private val _events = MutableLiveData<List<Event>>()
