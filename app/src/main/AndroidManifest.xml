@@ -16,6 +16,9 @@
             android:name=".CreateEvent"
             android:exported="false" />
         <activity
+            android:name=".UserHomeScreen"
+            android:exported="false" />
+        <activity
             android:name=".AdminHomeScreen"
             android:exported="false" />
         <activity
