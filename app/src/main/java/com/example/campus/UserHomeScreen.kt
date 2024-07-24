@@ -1,19 +1,20 @@
 package com.example.campus
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.adapter.UserAdapter
-import com.example.campus.data.model.UserData
 import com.example.campus.databinding.ActivityUserHomeScreenBinding
+import com.example.campus.util.Response
 
 class UserHomeScreen : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var binding: ActivityUserHomeScreenBinding
+    val eventViewModel: EventViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserHomeScreenBinding.inflate(layoutInflater)
@@ -21,14 +22,30 @@ class UserHomeScreen : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Sample data
-        val events = listOf(
-            UserData("Event Name", "Club XYZ", "$10", "Posted Date", "image_url_here"),
-            // Add more events as needed
-        )
+        eventViewModel.getEvents()
+        eventViewModel.event.observe(this@UserHomeScreen){
+            when(it){
+                is Response.Error -> {
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = UserAdapter(events)
+                }
+
+                Response.Loading -> {
+                    binding.progressbar.visibility = View.VISIBLE
+                }
+
+                Response.None -> {
+
+                }
+
+                is Response.Success -> {
+                    binding.progressbar.visibility = View.GONE
+                    binding.recyclerView.apply{
+                        adapter = UserAdapter(it.data)
+                        layoutManager = LinearLayoutManager(context)
+                    }
+                }
+            }
+        }
     }
 
 }
