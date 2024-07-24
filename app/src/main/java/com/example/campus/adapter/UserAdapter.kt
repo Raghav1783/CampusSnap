@@ -16,7 +16,6 @@ class UserAdapter(private val events: List<UserData>) :
             binding.txtEventName.text = event.eventName
             binding.txtClubName.text = event.clubName
             binding.txtEventPrice.text = event.eventPrice
-            binding.txtDatePosted.text = event.datePosted
             // Assuming imageUrl is a URL; otherwise, replace with setImageResource for local resources
             Glide.with(binding.imgClub.context)
                 .load(event.imageUrl)

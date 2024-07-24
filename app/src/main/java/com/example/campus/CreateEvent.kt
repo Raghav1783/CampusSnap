@@ -5,10 +5,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.campus.databinding.ActivityCreateEventBinding
 
 class CreateEvent : AppCompatActivity() {
+    private lateinit var binding: ActivityCreateEventBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityCreateEventBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_event)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
