@@ -71,7 +71,7 @@
             android:layout_height="25dp"
             android:src="@drawable/calendar"
             app:layout_constraintStart_toEndOf="@+id/tvDateTxt"
-            app:layout_constraintTop_toBottomOf="@id/topBar" />
+            app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
 
     </LinearLayout>
 
@@ -100,20 +100,35 @@
         android:layout_marginTop="16dp" />
 
     <!-- Image and Upload Button -->
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toTopOf="@id/uploadButton"
-        app:layout_constraintEnd_toStartOf="@id/uploadButton"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toTopOf="@id/CreateButton"
+        app:layout_constraintEnd_toStartOf="@id/CreateButton"
+        app:layout_constraintHorizontal_bias="0.346"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/priceEditText"
-        app:layout_constraintVertical_bias="0.704" />
+        app:layout_constraintVertical_bias="0.534" />
 
     <Button
         android:id="@+id/uploadButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="Upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
+
+        app:layout_constraintStart_toEndOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@id/priceEditText"
+        app:layout_constraintVertical_bias="0.396" />
+
+    <Button
+        android:id="@+id/CreateButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
@@ -122,4 +137,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
