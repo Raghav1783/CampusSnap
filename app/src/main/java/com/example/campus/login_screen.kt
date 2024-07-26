@@ -2,6 +2,7 @@ package com.example.campus
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -56,27 +57,35 @@ class login_screen : AppCompatActivity() {
                         .addOnSuccessListener { document ->
                             if (document.exists()) {
                                 val Role = document.getString("role")
-                                if(Role=="user"){
-                                    val intent = Intent(this, UserHomeScreen::class.java)
-                                    startActivity(intent)
-                                    finish()
+                                if (Role == "user") {
+                                    startActivity(Intent(this, UserHomeScreen::class.java))
+                                } else if (Role == "admin") {
+                                    startActivity(Intent(this, AdminHomeScreen::class.java))
                                 }
                                 else{
-                                    val intent = Intent(this, AdminHomeScreen::class.java)
-                                    startActivity(intent)
-                                    finish()
+                                    //yoyo
                                 }
 
                             } else {
-
+                                Toast.makeText(this, "No such user exists.", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                         .addOnFailureListener { e ->
-                            // Handle failure (e.g., show an error message)
+
+                            Toast.makeText(
+                                this,
+                                "Failed to retrieve user role.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                 } else {
-                    // Login failed
-                    // Handle the error (e.g., show an error message)
+
+                    Toast.makeText(
+                        this,
+                        "Login failed. Please check your credentials.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 

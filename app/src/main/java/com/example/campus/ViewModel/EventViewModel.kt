@@ -43,4 +43,10 @@ class EventViewModel @Inject constructor(
             repository.uploadingimg(fileUri,onResult)
         }
     }
+    val selectedEvent = MutableLiveData<Event>()
+
+    fun selectEvent(event: Event) {
+        selectedEvent.value = event
+    }
+
 }

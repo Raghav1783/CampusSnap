@@ -6,6 +6,7 @@
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="10dp"
+    android:id="@+id/event_view"
     android:elevation="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 

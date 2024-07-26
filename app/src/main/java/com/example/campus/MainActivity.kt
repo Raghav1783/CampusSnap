@@ -2,6 +2,7 @@ package com.example.campus
 
 import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -91,6 +92,13 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener { documentReference ->
                 // Document successfully written
                 println("DocumentSnapshot added with ID: ")
+
+                // Navigate to the appropriate screen based on the user's role
+                if (role == "user") {
+                    startActivity(Intent(this, UserHomeScreen::class.java))
+                } else if (role == "Admin") {
+                    startActivity(Intent(this, AdminHomeScreen::class.java))
+                }
             }
             .addOnFailureListener { e ->
                 // Error occurred
