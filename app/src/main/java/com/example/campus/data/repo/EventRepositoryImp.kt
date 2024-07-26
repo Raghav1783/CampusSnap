@@ -30,6 +30,7 @@ class EventRepositoryImp(val database:FirebaseFirestore,val StorageReference:Sto
     override fun addEvent(event: Event, result: (Response<String>) -> Unit) {
         var document = database.collection("Event").document()
          event.id = document.id
+
             document
             .set(event)
             .addOnSuccessListener { documentReference ->

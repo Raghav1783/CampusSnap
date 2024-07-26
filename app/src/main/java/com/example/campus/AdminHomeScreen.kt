@@ -1,5 +1,6 @@
 package com.example.campus
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -26,7 +27,9 @@ class AdminHomeScreen : AppCompatActivity() {
 
         var fab = binding.fabAdd
         fab.setOnClickListener {
-
+            val intent = Intent(this, CreateEvent::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }

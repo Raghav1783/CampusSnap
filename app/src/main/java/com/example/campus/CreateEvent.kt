@@ -1,8 +1,12 @@
 package com.example.campus
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -11,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityCreateEventBinding
+import com.example.campus.util.Response
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
@@ -18,8 +23,10 @@ import java.util.Calendar
 class CreateEvent : AppCompatActivity() {
     private lateinit var binding: ActivityCreateEventBinding
     val viewmodel :EventViewModel by viewModels()
+    private var imageUrl: String = ""
     private lateinit var auth: FirebaseAuth;
     private lateinit var firestore: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateEventBinding.inflate(layoutInflater)
@@ -45,6 +52,12 @@ class CreateEvent : AppCompatActivity() {
             setDate()
         }
 
+        binding.uploadButton.setOnClickListener {
+            val intent =Intent()
+            intent.action = Intent.ACTION_PICK
+            intent.type = "image/*"
+            imageLauncher.launch(intent)
+        }
         binding.CreateButton.setOnClickListener {
             if(validation()){
                 var currentUserUID = auth.currentUser?.uid ?: ""
@@ -56,7 +69,7 @@ class CreateEvent : AppCompatActivity() {
                     username = username,
                     title = binding.titleTextView.text.toString(),
                     price = binding.priceEditText.text.toString(),
-                    image="String",
+                    image = imageUrl,
                     description = binding.descriptionTextView.text.toString(),
                     date = binding.tvDate.text.toString(),
                     location = binding.tvDate.text.toString()
@@ -65,6 +78,8 @@ class CreateEvent : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun validation(): Boolean {
         var isValid = true
@@ -110,6 +125,9 @@ class CreateEvent : AppCompatActivity() {
                 isValid = false
             }
         }
+        if(imageUrl.isNullOrEmpty()){
+            isValid = false
+        }
 
         return isValid
     }
@@ -144,6 +162,28 @@ class CreateEvent : AppCompatActivity() {
         }
 
         datePicker.show()
+    }
+    val imageLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK ){
+            if(it.data!=null){
+                 viewmodel.Uploadingimg(it.data!!.data!!){
+                     when(it){
+                         is Response.Success ->{
+                             imageUrl = it.data.toString()
+                         }
+                         is Response.Error -> {
+                             Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show()
+                         }
+                         is Response.Loading ->{
+                             Toast.makeText(this, "loading", Toast.LENGTH_SHORT).show()
+                         }
+                         is Response.None -> {
+                             Toast.makeText(this, "none", Toast.LENGTH_SHORT).show()
+                         }
+                     }
+                }
+            }
+        }
     }
 
 }

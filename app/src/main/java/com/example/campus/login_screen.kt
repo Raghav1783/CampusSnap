@@ -1,5 +1,6 @@
 package com.example.campus
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -56,10 +57,14 @@ class login_screen : AppCompatActivity() {
                             if (document.exists()) {
                                 val Role = document.getString("role")
                                 if(Role=="user"){
-                                    
+                                    val intent = Intent(this, UserHomeScreen::class.java)
+                                    startActivity(intent)
+                                    finish()
                                 }
                                 else{
-                                    //yoyo
+                                    val intent = Intent(this, AdminHomeScreen::class.java)
+                                    startActivity(intent)
+                                    finish()
                                 }
 
                             } else {
