@@ -3,6 +3,8 @@ package com.example.campus.di
 import com.example.campus.data.repo.EventRepository
 import com.example.campus.data.repo.EventRepositoryImp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +21,15 @@ object AppModule {
     }
     @Provides
     @Singleton
-    fun providesEventRepository(database:FirebaseFirestore):EventRepository{
-        return EventRepositoryImp(database)
+    fun providesEventRepository(database:FirebaseFirestore,storageReference: StorageReference):EventRepository{
+        return EventRepositoryImp(database,storageReference)
+
+    }
+
+    @Provides
+    @Singleton
+    fun providesFireBaseStorageInstance():StorageReference{
+        return FirebaseStorage.getInstance().getReference("app")
 
     }
 }
