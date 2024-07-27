@@ -14,8 +14,10 @@
         android:theme="@style/Theme.Campus"
         tools:targetApi="31" >
         <activity
+
             android:name=".ui.UserEventScreen"
             android:exported="false" />
+
         <activity
             android:name=".ui.CreateEvent"
             android:exported="false" />

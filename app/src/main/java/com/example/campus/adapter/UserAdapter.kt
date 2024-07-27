@@ -6,18 +6,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.EventsRvBinding
 
-class UserAdapter(private val events: List<Event>) :
+class UserAdapter(private val events: List<Event>,private val onItemClicked: (Event) -> Unit) :
     RecyclerView.Adapter<UserAdapter.EventViewHolder>() {
     inner class EventViewHolder(private val binding:EventsRvBinding) : RecyclerView.ViewHolder(binding.root) {
+
+
         fun bind(event: Event) {
             binding.txtEventName.text = event.title
             binding.txtClubName.text = event.username
             binding.txtEventPrice.text = event.price
-            // Assuming imageUrl is a URL; otherwise, replace with setImageResource for local resources
-//            Glide.with(binding.imgClub.context)
-//                .load(event.imageUrl)
-//                .into(binding.imgClub)
+
         }
+    }
+    interface OnItemClickListener {
+        fun onItemClick(event: Event)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
