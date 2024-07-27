@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.campus.EventDescriptionActivity
 import com.example.campus.R
 import com.example.campus.ViewModel.EventViewModel
 

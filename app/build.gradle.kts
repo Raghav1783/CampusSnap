@@ -62,6 +62,7 @@ dependencies {
     implementation ("com.google.zxing:core:3.3.3")
 
     implementation(libs.material)
+    implementation(libs.firebase.storage.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
