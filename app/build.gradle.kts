@@ -57,7 +57,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
-    implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.activity:activity-ktx:1.9.1")
     implementation(libs.material)
     implementation(libs.firebase.storage)
     testImplementation(libs.junit)
@@ -67,5 +67,12 @@ dependencies {
     //dagger
   implementation ("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    //razorpay
+    implementation ("com.razorpay:checkout:1.6.38")
+
+
+
+
 
 }

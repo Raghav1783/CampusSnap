@@ -1,7 +1,8 @@
-package com.example.campus
+package com.example.campus.ui
 
 import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.campus.R
 import com.example.campus.databinding.ActivityMainBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +44,12 @@ class MainActivity : AppCompatActivity() {
 
         signupbutton.setOnClickListener {
             signUpUser()
+        }
+
+        binding.loginBtn.setOnClickListener {
+            val intent = Intent(this,LoginScreen::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }

@@ -1,4 +1,4 @@
-package com.example.campus
+package com.example.campus.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.campus.R
 import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.adapter.UserAdapter
 import com.example.campus.databinding.ActivityUserHomeScreenBinding
