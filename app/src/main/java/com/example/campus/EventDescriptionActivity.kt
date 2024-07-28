@@ -1,37 +1,44 @@
 package com.example.campus
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityEventDescriptionBinding
-import com.example.campus.ui.UserHomeScreen
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.razorpay.Checkout
+import com.razorpay.PaymentResultListener
+import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 
-class EventDescriptionActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class EventDescriptionActivity : AppCompatActivity(), PaymentResultListener {
     private lateinit var binding: ActivityEventDescriptionBinding
     private lateinit var event: Event
+    private lateinit var firestore :FirebaseFirestore
+    private lateinit var auth: FirebaseAuth;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDescriptionBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        val sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE)
+        val eventId = sharedPreferences.getString("event_id", null)
+        
+
+
+        firestore = FirebaseFirestore.getInstance()
+        auth = Firebase.auth
+
 
         binding.btnRegister.setOnClickListener {
             if (event.price > 0.toString()) {
                 startPayment(event.price)
             } else {
-                registerUser()
+                registerUser("Free")
             }
         }
     }
@@ -48,7 +55,7 @@ class EventDescriptionActivity : AppCompatActivity() {
             options.put("image", "https://example.com/your_logo")
             options.put("theme.color", "#3399cc")
             options.put("currency", "INR")
-            options.put("amount", amount * 100)
+            options.put("amount", 100)
 
             val prefill = JSONObject()
             prefill.put("email", "user@example.com")
@@ -62,23 +69,37 @@ class EventDescriptionActivity : AppCompatActivity() {
         }
     }
 
-    fun onPaymentSuccess(razorpayPaymentID: String?) {
-        Toast.makeText(this, "Payment Successful: $razorpayPaymentID", Toast.LENGTH_SHORT).show()
-        registerUser()
+
+    private fun registerUser(paymentid:String) {
+        var name = auth.currentUser?.displayName.toString()
+        var email = auth.currentUser?.email.toString()
+        val document = firestore.collection("Event").document("?eventid?").collection("user").document()
+        val user = hashMapOf(
+            "Uid" to auth.currentUser?.uid.toString(),
+            "Name" to name,
+            "email" to email,
+            "paymentid" to paymentid
+
+        )
+        document.set(user);
+
+
     }
 
-    fun onPaymentError(code: Int, response: String?) {
-        Toast.makeText(this, "Payment failed: $response", Toast.LENGTH_SHORT).show()
+
+
+    override fun onPaymentSuccess(p0: String?) {
+        Toast.makeText(this, "Payment Success", Toast.LENGTH_SHORT).show()
+        if (p0 != null) {
+            registerUser(p0)
+        }
     }
 
-    private fun registerUser() {
-        // Implement the registration logic
-        // For example, open a new activity or show a success message
-        startActivity(Intent(this, UserHomeScreen::class.java))
 
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+        Toast.makeText(this, "error $p1", Toast.LENGTH_SHORT).show()
     }
-}
 
-private operator fun String.times(i: Int) {
 
 }

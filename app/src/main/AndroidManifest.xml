@@ -19,9 +19,6 @@
             android:name=".ui.MyEventsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.UserEventScreen"
-            android:exported="false" />
-        <activity
             android:name=".ui.CreateEvent"
             android:exported="false" />
         <activity
@@ -42,6 +39,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_F8kYQL3OJcz3JG"/>
     </application>
 
 </manifest>

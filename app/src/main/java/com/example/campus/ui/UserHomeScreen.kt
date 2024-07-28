@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campus.EventDescriptionActivity
-import com.example.campus.R
 import com.example.campus.ViewModel.EventViewModel
-
 import com.example.campus.adapter.UserAdapter
+import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityUserHomeScreenBinding
 import com.example.campus.util.Response
 
@@ -42,11 +41,19 @@ class UserHomeScreen : AppCompatActivity() {
                 }
                 is Response.Success -> {
                     binding.progressbar.visibility = View.GONE
-                    val adapter = UserAdapter(response.data) { event ->
-                        val intent = Intent(this, EventDescriptionActivity::class.java).apply {
-                            putExtra("event_id", event.id)
-                        }
-                        startActivity(intent)
+
+                    val adapter = UserAdapter(response.data).apply {
+                        setOnItemClickListener(object : UserAdapter.OnItemClickListener {
+                            override fun onItemClick(event: Event) {
+                                val sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE)
+                                sharedPreferences.edit().putString("event_id", event.id).apply()
+
+                                val intent = Intent(this@UserHomeScreen, EventDescriptionActivity::class.java).apply {
+                                    putExtra("event_id", event.id)
+                                }
+                                startActivity(intent)
+                            }
+                        })
                     }
                     binding.recyclerView.adapter = adapter
                 }

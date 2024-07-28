@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.EventsRvBinding
 
-class UserAdapter(private val events: List<Event>,private val onItemClicked: (Event) -> Unit) :
+class UserAdapter(private val events: List<Event>) :
     RecyclerView.Adapter<UserAdapter.EventViewHolder>() {
+    private var listener: OnItemClickListener? = null
     inner class EventViewHolder(private val binding:EventsRvBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
@@ -22,7 +23,7 @@ class UserAdapter(private val events: List<Event>,private val onItemClicked: (Ev
         fun onItemClick(event: Event)
     }
 
-    private var listener: OnItemClickListener? = null
+
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener

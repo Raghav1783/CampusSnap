@@ -27,11 +27,28 @@ class EventRepositoryImp(val database:FirebaseFirestore,val StorageReference:Sto
 
     }
 
+    override fun getEvent(eventId:String,result: (Response<Event>) -> Unit) {
+      database.collection("Event").document(eventId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val event = document.toObject(Event::class.java)
+                    result.invoke(Response.Success(event!!))
+                } else {
+                    result(Response.Error("Event not found"))
+                }
+            }
+            .addOnFailureListener { exception ->
+                result(Response.Error(exception.message ?: "Error fetching event"))
+            }
+
+    }
+
     override fun addEvent(event: Event, result: (Response<String>) -> Unit) {
         var document = database.collection("Event").document()
         event.id = document.id
 
-            document
+        document
             .set(event)
             .addOnSuccessListener { documentReference ->
                 // Document successfully written
