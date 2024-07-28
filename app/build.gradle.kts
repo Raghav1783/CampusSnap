@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation( "com.github.bumptech.glide:glide:4.16.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
@@ -72,7 +73,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     //razorpay
-    implementation ("com.razorpay:checkout:1.6.38")
+    implementation("com.razorpay:checkout:1.6.20")
 
 
 

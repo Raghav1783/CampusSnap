@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Email and password cannot be empty", Toast.LENGTH_SHORT).show()
+
             return
         }
 
@@ -70,17 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Create a new user with email and password
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    addToDatabase(email,password,name,"user")
-                    Toast.makeText(this, "yoyo", Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.d(TAG, "signUpUser: ",task.exception)
-                    Toast.makeText(this, "yo", Toast.LENGTH_SHORT).show()
-                    // Handle the error (e.g., display a toast or log the error)
-                }
-            }
+
     }
 
     private fun addToDatabase(email: String, password: String, name: String, role: String) {

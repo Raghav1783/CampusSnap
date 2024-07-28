@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.databinding.ActivityAdminHomeScreenBinding
-//import com.journeyapps.barcodescanner.ScanContract
-//import com.journeyapps.barcodescanner.ScanOptions
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 
 class AdminHomeScreen : AppCompatActivity() {
     private lateinit var binding: ActivityAdminHomeScreenBinding
@@ -25,18 +25,19 @@ class AdminHomeScreen : AppCompatActivity() {
             val intent = Intent(this, CreateEvent::class.java)
             startActivity(intent)
         }
-//        binding.scanQrButton.setOnClickListener {
-//            val options = ScanOptions()
-//            qrLauncher.launch(options)
-//        }
+        binding.scanQrButton.setOnClickListener {
+            val options = ScanOptions()
+            qrLauncher.launch(options)
+      }
     }
 
-//    private val qrLauncher = registerForActivityResult(ScanContract()) { result ->
-//        if (result.contents != null) {
-//            // Handle scanned result
-//            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
-//        } else {
-//            Toast.makeText(this, "QR Scan failed", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-}
+   private val qrLauncher = registerForActivityResult(ScanContract()) { result ->
+       if (result.contents != null){
+            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+        } else{
+
+
+        Toast.makeText(this, "QR Scan failed", Toast.LENGTH_SHORT).show()
+    }
+        }
+    }

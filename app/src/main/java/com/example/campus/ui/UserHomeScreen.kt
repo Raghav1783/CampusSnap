@@ -24,7 +24,7 @@ class UserHomeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         eventViewModel.getEvents()
