@@ -52,5 +52,9 @@ class UserHomeScreen : AppCompatActivity() {
                 }
             }
         }
+        binding.btnMyEvents.setOnClickListener {
+            val intent = Intent(this, MyEventsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
