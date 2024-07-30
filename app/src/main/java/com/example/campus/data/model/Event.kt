@@ -5,6 +5,7 @@ data class Event(
     val username:String = "",
     val title:String = "",
     val price:String = "",
+    var qrCodeUrl: String = "",
     val image:String = "",
     val description:String = "",
     val date:String = "",
