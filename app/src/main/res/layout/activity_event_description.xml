@@ -93,7 +93,7 @@
         app:layout_constraintHorizontal_bias="0.73"
         app:layout_constraintStart_toEndOf="@id/txt_date"
         app:layout_constraintTop_toTopOf="@+id/txt_date"
-        app:layout_constraintTop_totopf="@+id/txt_date" />
+        />
 
     <TextView
         android:id="@+id/txt_price"

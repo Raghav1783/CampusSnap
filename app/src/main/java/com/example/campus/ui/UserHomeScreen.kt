@@ -13,7 +13,9 @@ import com.example.campus.adapter.UserAdapter
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityUserHomeScreenBinding
 import com.example.campus.util.Response
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserHomeScreen : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var binding: ActivityUserHomeScreenBinding
