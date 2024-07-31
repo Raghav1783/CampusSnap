@@ -76,6 +76,10 @@ dependencies {
     //razorpay
     implementation("com.razorpay:checkout:1.6.20")
 
+    //gemini
+
+    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+
 
 
 

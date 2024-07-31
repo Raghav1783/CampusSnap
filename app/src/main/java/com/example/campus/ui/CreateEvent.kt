@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.campus.ViewModel.EventViewModel
+import com.example.campus.ViewModel.geminiViewModel
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityCreateEventBinding
 import com.example.campus.util.Response
@@ -18,18 +20,23 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+
 @AndroidEntryPoint
 class CreateEvent : AppCompatActivity() {
     private lateinit var binding: ActivityCreateEventBinding
     val viewModel: EventViewModel by viewModels()
     private var imageUrl: String = ""
+    private lateinit var vm:geminiViewModel
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        vm = geminiViewModel()
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
@@ -45,6 +52,16 @@ class CreateEvent : AppCompatActivity() {
             imageLauncher.launch(intent)
         }
 
+        binding.useAiButton.setOnClickListener {
+            if(!binding.Descriptionev.text.toString().isNullOrEmpty()){
+
+                generateText(binding.Descriptionev.text.toString())
+            }
+            else{
+                Toast.makeText(this, "Add some text", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.CreateButton.setOnClickListener {
             if (validateInput()) {
                 val currentUserUID = auth.currentUser?.uid ?: return@setOnClickListener
@@ -54,10 +71,10 @@ class CreateEvent : AppCompatActivity() {
                         Event(
                             id = "",
                             username = username,
-                            title = binding.titleTextView.text.toString(),
+                            title = binding.titleev.text.toString(),
                             price = binding.priceEditText.text.toString(),
                             image = imageUrl,
-                            description = binding.descriptionTextView.text.toString(),
+                            description = binding.Descriptionev.text.toString(),
                             date = binding.tvDate.text.toString(),
                             location = binding.locationTextView.text.toString()
                         )
@@ -66,6 +83,33 @@ class CreateEvent : AppCompatActivity() {
                     Toast.makeText(this, "Failed to fetch user data", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun generateText(msg: String) {
+        var prompt = "create a 5 lines description using this $msg"
+        vm.sendMessage(prompt)
+        vm.response.observe(this) { response ->
+            when (response) {
+                is Response.Error -> {
+                    
+                }
+
+                Response.Loading -> {
+
+                }
+
+                Response.None -> {
+
+                }
+
+                is Response.Success -> {
+
+                    binding.Descriptionev.text =
+                        Editable.Factory.getInstance().newEditable(response.data)
+                }
+            }
+
         }
     }
 
