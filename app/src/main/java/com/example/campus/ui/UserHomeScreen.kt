@@ -27,7 +27,7 @@ class UserHomeScreen : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         eventViewModel.getEvents()
-        eventViewModel.event.observe(this@UserHomeScreen) { response ->
+        eventViewModel.events.observe(this@UserHomeScreen) { response ->
             when (response) {
                 is Response.Error -> {
                     binding.progressbar.visibility = View.GONE

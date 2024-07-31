@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityCreateEventBinding
@@ -146,7 +147,12 @@ class CreateEvent : AppCompatActivity() {
         if (it.resultCode == Activity.RESULT_OK && it.data != null) {
             viewModel.Uploadingimg(it.data!!.data!!) { response ->
                 when (response) {
-                    is Response.Success -> imageUrl = response.data.toString()
+                    is Response.Success->{
+                        imageUrl = response.data.toString()
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .into(binding.imageView)
+                    }
                     is Response.Error -> Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show()
                     is Response.Loading -> Toast.makeText(this, "Uploading image...", Toast.LENGTH_SHORT).show()
                     is Response.None -> Toast.makeText(this, "No response", Toast.LENGTH_SHORT).show()

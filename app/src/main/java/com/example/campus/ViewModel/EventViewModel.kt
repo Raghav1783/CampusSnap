@@ -17,12 +17,15 @@ class EventViewModel @Inject constructor(
     private val repository: EventRepository
 ): ViewModel() {
     private val _events = MutableLiveData<Response<List<Event>>>()
-    val event:LiveData<Response<List<Event>>>
+    val events:LiveData<Response<List<Event>>>
         get() = _events
 
     private val _addevents = MutableLiveData<Response<String>>()
     val addevent:LiveData<Response<String>>
         get() = _addevents
+
+    private val _event = MutableLiveData<Response<Event>>()
+    val event: LiveData<Response<Event>> = _event
 
     fun getEvents(){
         _events.value = Response.Loading
@@ -43,10 +46,13 @@ class EventViewModel @Inject constructor(
             repository.uploadingimg(fileUri,onResult)
         }
     }
-    val selectedEvent = MutableLiveData<Event>()
 
-    fun selectEvent(event: Event) {
-        selectedEvent.value = event
+    fun getEvent(eventId: String){
+        viewModelScope.launch {
+            repository.getEvent(eventId) { response ->
+                _event.postValue(response)
+            }
+        }
     }
 
 }

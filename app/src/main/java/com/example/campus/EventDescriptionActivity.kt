@@ -1,10 +1,15 @@
 package com.example.campus
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityEventDescriptionBinding
+import com.example.campus.util.Response
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -20,6 +25,7 @@ class EventDescriptionActivity : AppCompatActivity(), PaymentResultListener {
     private lateinit var event: Event
     private lateinit var firestore :FirebaseFirestore
     private lateinit var auth: FirebaseAuth;
+    val eventViewModel: EventViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDescriptionBinding.inflate(layoutInflater)
@@ -27,7 +33,35 @@ class EventDescriptionActivity : AppCompatActivity(), PaymentResultListener {
 
         val sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE)
         val eventId = sharedPreferences.getString("event_id", null)
-        
+
+        eventViewModel.getEvent(eventId.toString())
+        eventViewModel.event.observe(this@EventDescriptionActivity) { response ->
+            when (response) {
+                is Response.Error -> {
+                    binding.progressbar.visibility = View.GONE
+                    // Handle error
+                }
+                Response.Loading -> {
+                    binding.progressbar.visibility = View.VISIBLE
+                }
+                Response.None -> {
+                    binding.progressbar.visibility = View.GONE
+                }
+                is Response.Success -> {
+                    val event = response.data
+                    binding.eventname.text = event.title
+                    binding.txtDescription.text = event.description
+                    binding.location.text = event.location
+                    binding.date.text = event.date
+                    binding.txtPrice.text = event.price
+
+                    Glide.with(this)
+                        .load(event.image)
+                        .into(binding.eventImage)
+                }
+            }
+        }
+
 
 
         firestore = FirebaseFirestore.getInstance()
