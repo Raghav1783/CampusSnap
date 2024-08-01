@@ -1,98 +1,75 @@
 package com.example.campus.ui
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
+import android.widget.Toast
 
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.campus.R
+import com.example.campus.ViewModel.EventViewModel
 import com.example.campus.adapter.MyEventsAdapter
-import com.example.campus.data.model.Event
 import com.example.campus.databinding.ActivityMyEventsBinding
+import com.example.campus.di.TicketUpdateManager
+import com.example.campus.util.Response
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.qrcode.QRCodeWriter
-import java.io.ByteArrayOutputStream
 
 class MyEventsActivity : AppCompatActivity() {
-    private val firestore = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
     private lateinit var binding: ActivityMyEventsBinding
+    private val firestore = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+    private val eventViewModel: EventViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyEventsBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_my_events)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        setContentView(binding.root)
+
+        TicketUpdateManager.registerListener(this)
+
         setupRecyclerView()
-        fetchEvents()
+        observeUserTickets()
+        fetchUserTickets()
+    }
+
+    override fun onTicketUpdated(eventName: String, qrCodeUrl: String) {
+
+        fetchUserTickets()
     }
 
     private fun setupRecyclerView() {
         binding.rvMyEvent.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun fetchEvents() {
-        firestore.collection("events")
-            .get()
-            .addOnSuccessListener { result ->
-                val events = result.toObjects(Event::class.java)
-                events.forEach { event ->
-                    val qrCodeBitmap = generateQRCode(event.id)
-                    val qrCodeUrl = saveQRCodeToFirebaseStorage(qrCodeBitmap, event.id)
-                    event.qrCodeUrl = qrCodeUrl
+    private fun observeUserTickets() {
+        eventViewModel.events.observe(this, Observer { response ->
+            when (response) {
+                is Response.Loading -> {
+                    // Show loading indicator if needed
                 }
-                binding.rvMyEvent.adapter = MyEventsAdapter(events)
-            }
-            .addOnFailureListener { exception ->
-                // Handle error
-                android.util.Log.e("MyEventsActivity", "Error fetching events", exception)
-            }
-    }
-
-    private fun generateQRCode(text: String): Bitmap {
-        val qrCodeWriter = QRCodeWriter()
-        val bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200)
-        val width = bitMatrix.width
-        val height = bitMatrix.height
-        val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                bmp.setPixel(x, y, if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE)
-            }
-        }
-        return bmp
-    }
-
-    private fun saveQRCodeToFirebaseStorage(bitmap: Bitmap, eventId: String): String {
-        val storageRef = storage.reference
-        val qrCodeRef = storageRef.child("qrcodes/$eventId.png")
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        val data = baos.toByteArray()
-
-        var qrCodeUrl = ""
-        qrCodeRef.putBytes(data)
-            .addOnSuccessListener {
-                qrCodeRef.downloadUrl.addOnSuccessListener { uri ->
-                    qrCodeUrl = uri.toString()
+                is Response.Success -> {
+                    val tickets = response.data
+                    binding.rvMyEvent.adapter = MyEventsAdapter(tickets)
+                }
+                is Response.Error -> {
+                    Toast.makeText(this, "Error fetching tickets: ${response.message}", Toast.LENGTH_SHORT).show()
+                }
+                Response.None -> {
+                    // Handle no action case
                 }
             }
-            .addOnFailureListener { exception ->
-                // Handle error
+        })
+    }
 
-            }
+    private fun fetchUserTickets() {
+        eventViewModel.getEvents()
+    }
 
-        return qrCodeUrl
+    override fun onDestroy() {
+        super.onDestroy()
+        // Unregister listener
+        TicketUpdateManager.unregisterListener()
     }
 }
