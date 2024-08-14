@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Campus"
         tools:targetApi="31">
         <activity
+            android:name=".ui.TicketQr"
+            android:exported="false" />
+        <activity
             android:name=".ui.MyEventsActivity"
             android:exported="false" />
         <activity
@@ -31,6 +34,9 @@
             android:name=".ui.LoginScreen"
             android:exported="false" />
         <activity
+            android:name=".EventDescriptionActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -42,7 +48,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_F8kYQL3OJcz3JG"/>
+            android:value="rzp_test_F8kYQL3OJcz3JG" />
     </application>
 
 </manifest>

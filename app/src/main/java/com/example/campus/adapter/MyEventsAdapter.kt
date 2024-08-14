@@ -1,35 +1,48 @@
 package com.example.campus.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.campus.R
-import com.example.campus.data.model.Event
+import com.example.campus.data.model.Ticket
+import com.example.campus.databinding.MyeventsRvBinding
 
-class MyEventsAdapter (private val events: List<Event>): RecyclerView.Adapter<MyEventsAdapter.EventViewHolder>(){
+class MyEventsAdapter(private val tickets: List<Ticket>) :
+    RecyclerView.Adapter<MyEventsAdapter.TicketViewHolder>() {
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val eventName: TextView = itemView.findViewById(R.id.rv_myEvent)
-        val qrCodeImage: ImageView = itemView.findViewById(R.id.img_qr)
+    private var listener: OnItemClickListener? = null
+
+    inner class TicketViewHolder(private val binding: MyeventsRvBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(ticket: Ticket) {
+            binding.txtMyEvent.text = ticket.title
+//            if (ticket.qrCodeUrl.isNotEmpty()) {
+//                Glide.with(binding.root.context)
+//                    .load(ticket.qrCodeUrl)
+//                    .into(binding.imgQr)
+//            }
+
+            binding.root.setOnClickListener {
+                listener?.onItemClick(ticket)
+            }
+        }
     }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.myevents_rv, parent, false)
-            return EventViewHolder(view)
-        }
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val event = events[position]
-        holder.eventName.text = event.title
-        if (event.qrCodeUrl.isNotEmpty()) {
-            Glide.with(holder.itemView.context)
-                .load(event.qrCodeUrl)
-                .into(holder.qrCodeImage)
-        }
+    interface OnItemClickListener {
+        fun onItemClick(ticket: Ticket)
     }
 
-    override fun getItemCount() = events.size
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketViewHolder {
+        val binding = MyeventsRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TicketViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: TicketViewHolder, position: Int) {
+        holder.bind(tickets[position])
+    }
+
+    override fun getItemCount() = tickets.size
 }

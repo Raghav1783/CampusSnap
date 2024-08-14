@@ -17,6 +17,10 @@ class UserAdapter(private val events: List<Event>) :
             binding.txtClubName.text = event.username
             binding.txtEventPrice.text = event.price
 
+            binding.root.setOnClickListener {
+                listener?.onItemClick(event)
+            }
+
         }
     }
     interface OnItemClickListener {

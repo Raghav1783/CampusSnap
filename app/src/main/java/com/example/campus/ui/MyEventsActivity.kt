@@ -1,42 +1,33 @@
 package com.example.campus.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.campus.ViewModel.EventViewModel
+import com.example.campus.ViewModel.TicketViewModel
 import com.example.campus.adapter.MyEventsAdapter
+import com.example.campus.data.model.Ticket
 import com.example.campus.databinding.ActivityMyEventsBinding
-import com.example.campus.di.TicketUpdateManager
 import com.example.campus.util.Response
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyEventsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyEventsBinding
-    private val firestore = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-    private val eventViewModel: EventViewModel by viewModels()
+    private val ticketViewModel: TicketViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        TicketUpdateManager.registerListener(this)
-
         setupRecyclerView()
         observeUserTickets()
         fetchUserTickets()
-    }
 
-    override fun onTicketUpdated(eventName: String, qrCodeUrl: String) {
-
-        fetchUserTickets()
     }
 
     private fun setupRecyclerView() {
@@ -44,32 +35,43 @@ class MyEventsActivity : AppCompatActivity() {
     }
 
     private fun observeUserTickets() {
-        eventViewModel.events.observe(this, Observer { response ->
+        ticketViewModel.getTickets()
+        ticketViewModel.tickets.observe(this) { response ->
             when (response) {
                 is Response.Loading -> {
-                    // Show loading indicator if needed
+                    binding.progressBar2.visibility = View.VISIBLE
                 }
                 is Response.Success -> {
-                    val tickets = response.data
-                    binding.rvMyEvent.adapter = MyEventsAdapter(tickets)
+                    binding.progressBar2.visibility = View.GONE
+
+                    val adapter = MyEventsAdapter(response.data).apply {
+                        setOnItemClickListener(object : MyEventsAdapter.OnItemClickListener {
+                            override fun onItemClick(ticket: Ticket) {
+                                val sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE)
+                                val code = ticket.EventId +'$'+ticket.Uid
+                                sharedPreferences.edit().putString("ticket_id", code).apply()
+
+                                val intent = Intent(this@MyEventsActivity, TicketQr::class.java).apply {
+
+                                }
+                                startActivity(intent)
+                            }
+                        })
+                    }
+                    binding.rvMyEvent.adapter = adapter
                 }
                 is Response.Error -> {
+                    binding.progressBar2.visibility = View.GONE
                     Toast.makeText(this, "Error fetching tickets: ${response.message}", Toast.LENGTH_SHORT).show()
                 }
                 Response.None -> {
-                    // Handle no action case
+                    binding.progressBar2.visibility = View.GONE
                 }
             }
-        })
+        }
     }
 
     private fun fetchUserTickets() {
-        eventViewModel.getEvents()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Unregister listener
-        TicketUpdateManager.unregisterListener()
+        ticketViewModel.getTickets()
     }
 }
