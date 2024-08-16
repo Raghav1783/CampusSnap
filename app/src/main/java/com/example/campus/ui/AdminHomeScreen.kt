@@ -35,6 +35,7 @@ class AdminHomeScreen : AppCompatActivity() {
 
    private val qrLauncher = registerForActivityResult(ScanContract()) { result ->
        if (result.contents != null) {
+           CheckinUser(result.contents)
            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
        } else {
 
@@ -43,7 +44,46 @@ class AdminHomeScreen : AppCompatActivity() {
        }
    }
 
-private fun validateQrCode(scannedData: String) {
+    private fun CheckinUser(result: String) {
+        val parts = result.split("$")
+        val eventId = parts[0]
+        val uid = parts[1]
+
+        val documentRef = firestore.collection("Event").document(eventId)
+            .collection("tickets").document(uid)
+
+        documentRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val currentStatus = document.getString("status")
+                    if (currentStatus == "Scanned") {
+
+                        Toast.makeText(this, "User already checked in", Toast.LENGTH_SHORT).show()
+                    } else {
+
+                        documentRef.update("status", "Scanned")
+                            .addOnSuccessListener {
+
+                                Toast.makeText(this, "User scanned in successfully", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+
+                                Toast.makeText(this, "Failed to check in user: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                } else {
+                    // Document does not exist
+                    Toast.makeText(this, "Ticket not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                // Handle failure in retrieving the document
+                Toast.makeText(this, "Error checking status: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+    private fun validateQrCode(scannedData: String) {
     // Replace with the actual logic to get the expected QR code data
     val userId = getUserId()
     firestore.collection("events")
