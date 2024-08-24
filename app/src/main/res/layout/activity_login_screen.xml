@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.LoginScreen">
 
-    <!-- Header Text -->
     <TextView
-        android:id="@+id/idTVHeader"
-        android:layout_width="match_parent"
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:padding="30dp"
-        android:text="Welcome Welcome Welcome"
-        android:textAlignment="center"
-        android:textSize="18sp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginVertical="64dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/airbnbcereal_w_bd"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
 
-    <!-- Email EditText -->
-    <EditText
-        android:id="@+id/idEdtUserName"
+    <!-- Email TextInputLayout -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtEmailL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/idTVHeader"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:hint="Enter Email"
-        android:inputType="textEmailAddress" />
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/login"
+        android:hint="enter your email"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
 
-    <!-- Password EditText -->
-    <EditText
-        android:id="@+id/idEdtPassword"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/label"
+            android:textColorHint="@color/hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password TextInputLayout -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtPasswordL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/idEdtUserName"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:hint="Enter Password"
-        android:inputType="textPassword" />
+        android:layout_height="56dp"
+        android:layout_below="@id/txtEmailL"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/enter_the_password"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:passwordToggleTint="@color/hint">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@color/label"
+            android:textColorHint="@color/label" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Login Button -->
     <Button
-        android:id="@+id/idBtnLogin"
+        android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idEdtPassword"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:text="Login"
-        android:textAllCaps="true" />
+        android:layout_below="@id/txtPasswordL"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/label"
+        android:text="login"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

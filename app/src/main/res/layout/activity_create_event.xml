@@ -1,181 +1,188 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.CreateEvent">
 
-    <!-- Title -->
-
+    <!-- Event Name -->
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Event Title"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/titleev"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:hint="Title"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp" />
-
-    <!-- Description -->
-    <TextView
-        android:id="@+id/descriptionTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Event Description"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleev" />
-
-    <EditText
-        android:id="@+id/Descriptionev"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Description"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:minHeight="100dp"
-        android:gravity="top"
-        android:padding="8dp" />
-
-    <Button
-        android:id="@+id/useAiButton"
+        android:id="@+id/eventNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Use AI"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Descriptionev"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Date -->
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="Event Date"
-        android:textAlignment="center"
+        android:text="Event Name"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/useAiButton" />
-
-    <LinearLayout
-        android:id="@+id/dateLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/tvDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvDate">
-
-        <TextView
-            android:id="@+id/tvDateTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-
-            android:text="date"
-
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/tvDate"
-            app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
-
-        <ImageView
-            android:id="@+id/ivDate"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/calendar"
-            app:layout_constraintStart_toEndOf="@+id/tvDateTxt"
-            app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
-
-    </LinearLayout>
-
-    <!-- Location -->
-    <EditText
-        android:id="@+id/locationTextView"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:hint="Event Location"
-        app:layout_constraintTop_toBottomOf="@id/tvDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="12sp" />
-
-    <!-- Price -->
-    <EditText
-        android:id="@+id/priceEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter Price"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/locationTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="14sp"
+        android:fontFamily="@font/airbnbcereal_w_xbd"
+        android:layout_marginHorizontal="5dp"
+        android:textStyle="bold"
         android:layout_marginTop="16dp" />
 
-    <!-- Image and Upload Button -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/evenName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toTopOf="@id/CreateButton"
-        app:layout_constraintEnd_toStartOf="@id/CreateButton"
-        app:layout_constraintHorizontal_bias="0.346"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceEditText"
-        app:layout_constraintVertical_bias="0.534" />
+        android:hint="Event Name"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
 
-    <Button
-        android:id="@+id/uploadButton"
-        android:layout_width="100dp"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edEventName"
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:text="Upload"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/label"
+        android:textColorHint="@color/hint" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintTop_toBottomOf="@id/priceEditText"
-        app:layout_constraintVertical_bias="0.396" />
-
-    <Button
-        android:id="@+id/CreateButton"
-        android:layout_width="200dp"
+    <!-- Event Date -->
+    <TextView
+        android:id="@+id/eventDateLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:text="Event Date"
+        android:fontFamily="@font/airbnbcereal_w_xbd"
+        android:layout_marginHorizontal="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/eventDate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:hint="Date"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edEventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/label"
+            android:textColorHint="@color/hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/eventPlaceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Place"
+        android:fontFamily="@font/airbnbcereal_w_xbd"
+        android:layout_marginHorizontal="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/place"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:hint="Venue"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/label"
+            android:textColorHint="@color/hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Event Price -->
+    <TextView
+        android:id="@+id/eventPriceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Price"
+        android:textSize="18sp"
+        android:fontFamily="@font/airbnbcereal_w_xbd"
+        android:layout_marginHorizontal="5dp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/eventPrice"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:hint="Price"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/label"
+            android:textColorHint="@color/hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Event Description -->
+    <TextView
+        android:id="@+id/eventDescriptionLabel"
+        android:layout_width="wrap_content"
+        android:fontFamily="@font/airbnbcereal_w_xbd"
+        android:layout_marginHorizontal="5dp"
+        android:layout_height="wrap_content"
+        android:text="Event Description"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/desc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:hint="Enter Description"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edDesc"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/label"
+            android:textColorHint="@color/hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Submit Button -->
+    <com.google.android.material.button.MaterialButton
+
+        android:id="@+id/submitEventButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Create Event"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:padding="12dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

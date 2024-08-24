@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="label">#BD0F03</color>
+    <color name="label">#3D56F0</color>
     <color name="lightText">#3B3B3B</color>
+    <color name="hint">#807A7A</color>
+    <color name="appName">#37364A</color>
 </resources>
