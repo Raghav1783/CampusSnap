@@ -156,7 +156,7 @@
         android:id="@+id/desc"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
 
@@ -181,6 +181,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Event"
+        android:backgroundTint="@color/label"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:padding="12dp" />
